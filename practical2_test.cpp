@@ -30,6 +30,21 @@ TEST_CASE("UnOrdered Search Axioms", "[Search]")
 	ub[0] = 1; ub[1] = 1; ub[2] = 3; ub[3] = 3; ub[4] = 7;
 	ub[5] = 9; ub[6] = 11; ub[7] = 12; ub[8] = 14; ub[9] = 20;
 
+	//Arrange a 5 element array
+	Array<int> items(5);
+	items[0] = 3; items[1] = 2; items[2] = 7; items[3] = 5; items[4] = 9;
+
+	//Arrange a 2 element array
+	Array<int> key1(2);
+	key1[0] = 3; key1[1] = 5;
+	
+	//Arrange a 3 element array
+	Array<int> key2(3);
+	key2[0] = 3; key2[1] = 5; key2[1] = 8;
+
+	//Fill empty array of 5 elements
+	Array<int> test(5);
+
 	SECTION("Sequential Search Success")
 	{
 		//assert that 5 is found at position 0
@@ -102,6 +117,24 @@ TEST_CASE("UnOrdered Search Axioms", "[Search]")
 	{
 		//assert
 		REQUIRE(isOrdered<int>(ub) == true);
+	}
+
+	SECTION("Key1 is contained in Items")
+	{
+		//assert
+		REQUIRE(containsAll<int>(items, key1) == true);
+	}
+
+	SECTION("Key2 is contained in Items")
+	{
+		//assert
+		REQUIRE(containsAll<int>(items, key2) == false);
+	}
+
+	SECTION("Fill array from file")
+	{
+		//assert
+		loadFromFile<int>(test, "test.txt");
 	}
 
 

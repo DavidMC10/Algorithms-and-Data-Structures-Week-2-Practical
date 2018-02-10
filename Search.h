@@ -12,11 +12,14 @@
 #define SEARCH_H_
 
 #include "Array.h"
+#include <fstream>
+#include <iomanip>
+#include <iostream>
 
-// PreCondition: items Array is full
-// PostCondition: return position if key found, otherwise -1
+ // PreCondition: items Array is full
+ // PostCondition: return position if key found, otherwise -1
 template <class T>
-int sequentialSearch( const Array<T> & items, const T & key ) {
+int sequentialSearch(const Array<T> & items, const T & key) {
 
 	int count = 0;
 	// Loops through each array element to find the key
@@ -25,9 +28,9 @@ int sequentialSearch( const Array<T> & items, const T & key ) {
 		count++;
 
 		if (key == items[i]) {
-			
+
 			std::cout << "Sequential Search: [ ";
-			
+
 			for (int i = 0; i < items.length(); i++) {
 				std::cout << items[i] << " ";
 			}
@@ -80,7 +83,7 @@ int binarySearch(const Array<T> & items, const T & key) {
 // PostCondition: return number of occurences of items in Array
 template <class T>
 int countOccurrence(const Array<T> & items, const T & key) {
-	
+
 	int count{ 0 };
 	int comparisons{ 0 };
 	for (int i = 0; i < items.length(); i++) {
@@ -103,9 +106,9 @@ int countOccurrence(const Array<T> & items, const T & key) {
 // PostCondition: return number of occurrences of key in array items
 template <class T>
 int countOccurrenceOrdered(const Array<T> & items, const T & key) {
-	
+
 	int count{ 0 };
-	int comparisons{ 0 }; 
+	int comparisons{ 0 };
 	for (int i = 0; i < items.length(); i++) {
 		if (key == items[i]) {
 			comparisons = i + 1;
@@ -128,21 +131,72 @@ int countOccurrenceOrdered(const Array<T> & items, const T & key) {
 // PostCondition: return true if all keys are found, otherwise false
 template <class T>
 bool containsAll(const Array<T> & items, const Array<T> & keys) {
-	return false;
+
+	int count{ 0 };
+	for (int i{ 0 }; i < items.length(); i++) {
+
+		for (int j{ 0 }; j < keys.length(); j++) {
+			
+			// If element matches the count variable increments
+			if (items[i] == keys[j]) {
+				count++;
+				break;
+			}
+		}
+	}
+
+	// If the count variable is not equal to the length of the sub array
+	// This means all elements of the sub array are not in the main array
+	// Hence returns false
+	if (count != keys.length()) {
+		return false;
+	}
+
+	return true;
 }
 
 // PreCondition: Array is filled with values of type T.
 // PostCondition: return true array elements are ordered and false otherwise
 template <class T>
 bool isOrdered(const Array<T> & items) {
-	
+
 	for (int i = 0; i < items.length() - 1; i++) {
-		
+
 		if (items[i] > items[i + 1]) {
 			return false;
 		}
 	}
 	return true;
+}
+
+// PreCondition : file exists and contains >= data.length() integers in sorted order
+// PostCondition: Array is populated with values of type T contained in file
+template <class T>
+void loadFromFile(Array<T> & items, std::string fname) {
+
+	std::ifstream ifile; // where file is the variable representing the file
+
+	ifile.open(fname); // Opens the file
+	
+	//Check to see if the file exists
+	if (!ifile) {
+		std::cout << "File could not be opened" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	
+	// Loops through the file and stores each digit from the file in a part of the array.
+	// Stops when the file has reached the end or if the array is at max capacity.
+	int i{ 0 };
+	while (!ifile.eof() && i < items.length()) {
+		ifile >> items[i];
+		i++;
+	}
+
+	// Prints array results for proof
+	for (int i{ 0 }; i < items.length(); i++) {
+		std::cout << items[i] << " " << std::endl;
+	}
+
 }
 
 
