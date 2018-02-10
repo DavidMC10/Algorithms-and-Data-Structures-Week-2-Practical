@@ -3,8 +3,8 @@
  *
  * Template based Search Functions
  *
- * @author  Your name
- * @email   your email
+ * @author  David McElhinney
+ * @email   McElhinney-D1@email.ulster.ac.uk
  * @version 1.0
  */
 
